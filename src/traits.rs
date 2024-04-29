@@ -9,7 +9,7 @@ pub trait Load {
 
 pub trait LoadFromFile {
     type Output;
-    
+
     fn load(self, path: PathBuf) -> std::io::Result<Self::Output>;
 }
 
@@ -25,7 +25,7 @@ pub trait Compilable {
     fn compile(&mut self) -> Result;
 }
 
-pub trait Linkable{
+pub trait Linkable {
     fn link(&mut self) -> Result;
 }
 
@@ -35,6 +35,6 @@ pub trait AttachShaders {
 
 pub trait Bindable {
     fn bind(&mut self);
-    
+
     fn unbind(&mut self);
 }

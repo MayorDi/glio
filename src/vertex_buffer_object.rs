@@ -63,11 +63,11 @@ impl<T> Bindable for VBO<T> {
         if self.is_bound {
             return;
         }
-        
+
         unsafe {
             gl::BindBuffer(self.target.into(), self.id);
         }
-        
+
         self.is_bound = true;
     }
 
@@ -87,7 +87,7 @@ impl<T> Bindable for VBO<T> {
 impl<T> Drop for VBO<T> {
     fn drop(&mut self) {
         self.unbind();
-        
+
         unsafe {
             gl::DeleteBuffers(1, &self.id);
         }

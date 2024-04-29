@@ -1,6 +1,6 @@
-use gl::types::{GLchar, GLint};
 use crate::shader::Shader;
 use crate::traits::{AttachShaders, Compilable, Linkable, Status};
+use gl::types::{GLchar, GLint};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Program {
@@ -17,15 +17,15 @@ impl Program {
                 id: gl::CreateProgram(),
                 is_linked: false,
                 is_used: false,
-                shaders: vec![]
+                shaders: vec![],
             }
         }
     }
-    
+
     pub fn push_shader(&mut self, shader: Shader) {
         self.shaders.push(shader);
     }
-    
+
     pub fn employ(&mut self) {
         unsafe {
             if !self.is_used {
@@ -44,7 +44,7 @@ impl AttachShaders for Program {
                 gl::AttachShader(self.id, shader.id);
             }
         }
-        
+
         Ok(())
     }
 }
@@ -54,14 +54,14 @@ impl Linkable for Program {
         if self.is_linked {
             return Ok(());
         }
-        
+
         self.attach()?;
-        
+
         unsafe {
             gl::LinkProgram(self.id);
             self.status()?;
         }
-        
+
         self.is_linked = true;
         Ok(())
     }
@@ -72,11 +72,11 @@ impl Status for Program {
         unsafe {
             let mut status = gl::FALSE as GLint;
             gl::GetProgramiv(self.id, gl::LINK_STATUS, &mut status);
-            
+
             if status != (gl::TRUE as GLint) {
                 let mut len: GLint = 0;
                 gl::GetProgramiv(self.id, gl::INFO_LOG_LENGTH, &mut len);
-                
+
                 let mut buf = Vec::with_capacity(len as usize);
                 buf.set_len((len as usize) - 1);
                 gl::GetProgramInfoLog(
@@ -85,11 +85,11 @@ impl Status for Program {
                     std::ptr::null_mut(),
                     buf.as_mut_ptr() as *mut GLchar,
                 );
-                
+
                 return Err(String::from_utf8(buf).unwrap());
             }
         }
-        
+
         Ok(())
     }
 }

@@ -1,8 +1,8 @@
+use crate::traits::Status;
+use crate::traits::{Compilable, LoadFromFile};
+use gl::types::{GLchar, GLenum, GLint};
 use std::ffi::CString;
 use std::path::PathBuf;
-use gl::types::{GLchar, GLenum, GLint};
-use crate::traits::{Compilable, LoadFromFile};
-use crate::traits::Status;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Shader {
@@ -19,7 +19,7 @@ impl Shader {
                 id: gl::CreateShader(type_shader.into()),
                 type_shader,
                 is_compile: false,
-                src: String::new()
+                src: String::new(),
             }
         }
     }
@@ -27,11 +27,11 @@ impl Shader {
 
 impl LoadFromFile for Shader {
     type Output = Self;
-    
+
     fn load(mut self, path: PathBuf) -> std::io::Result<Self::Output> {
         let file = std::fs::read_to_string(path)?;
         self.src = file;
-        
+
         Ok(self)
     }
 }
@@ -41,16 +41,16 @@ impl Compilable for Shader {
         if self.is_compile {
             return Ok(());
         }
-        
+
         unsafe {
             let src = CString::new(self.src.clone()).unwrap();
             gl::ShaderSource(self.id, 1, &src.as_ptr(), std::ptr::null());
             gl::CompileShader(self.id);
         }
-        
+
         if self.status().is_err() {
             return Err(self.status().err().unwrap());
-        } 
+        }
 
         self.is_compile = true;
         Ok(())
@@ -66,7 +66,7 @@ impl Status for Shader {
             if status != (gl::TRUE as GLint) {
                 let mut len = 0;
                 gl::GetShaderiv(self.id, gl::INFO_LOG_LENGTH, &mut len);
-                
+
                 let mut buf = Vec::with_capacity(len as usize);
                 buf.set_len((len as usize) - 1);
                 gl::GetShaderInfoLog(
@@ -75,11 +75,11 @@ impl Status for Shader {
                     std::ptr::null_mut(),
                     buf.as_mut_ptr() as *mut GLchar,
                 );
-                
+
                 return Err(String::from_utf8(buf).unwrap());
             }
         }
-        
+
         Ok(())
     }
 }

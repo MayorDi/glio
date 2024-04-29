@@ -8,8 +8,8 @@ license = "Apache-2.0"
 keywords = ["OpenGL", "GL"]
 categories = ["graphics"]
 readme = "README.md"
-homepage = ""
-repository = ""
+homepage = "https://github.com/MayorDi/glio"
+repository = "https://github.com/MayorDi/glio"
 
 [dependencies]
 gl = "0.14.0"

@@ -25,11 +25,11 @@ impl Bindable for VAO {
         if self.is_bound {
             return;
         }
-        
+
         unsafe {
             gl::BindVertexArray(self.id);
         }
-        
+
         self.is_bound = true;
     }
 
@@ -37,11 +37,11 @@ impl Bindable for VAO {
         if !self.is_bound {
             return;
         }
-        
+
         unsafe {
             gl::BindVertexArray(0);
         }
-        
+
         self.is_bound = false;
     }
 }
@@ -49,7 +49,7 @@ impl Bindable for VAO {
 impl Drop for VAO {
     fn drop(&mut self) {
         self.unbind();
-        
+
         unsafe {
             gl::DeleteVertexArrays(1, &self.id);
         }
