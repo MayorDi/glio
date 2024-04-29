@@ -7,7 +7,6 @@ pub struct VBO<T> {
     pub target: Target,
     pub type_draw: TypeDraw,
     pub data: Option<T>,
-    pub is_bound: bool,
 }
 
 impl<T> VBO<T> {
@@ -22,7 +21,6 @@ impl<T> VBO<T> {
             target,
             type_draw,
             data: None,
-            is_bound: false,
         }
     }
 }
@@ -60,27 +58,15 @@ impl<T> Load for VBO<T> {
 
 impl<T> Bindable for VBO<T> {
     fn bind(&mut self) {
-        if self.is_bound {
-            return;
-        }
-
         unsafe {
             gl::BindBuffer(self.target.into(), self.id);
         }
-
-        self.is_bound = true;
     }
 
     fn unbind(&mut self) {
-        if !self.is_bound {
-            return;
-        }
-
         unsafe {
             gl::BindBuffer(self.target.into(), 0);
         }
-
-        self.is_bound = false;
     }
 }
 
