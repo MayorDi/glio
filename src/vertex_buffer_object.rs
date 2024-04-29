@@ -4,10 +4,10 @@ use gl::types::GLenum;
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub struct VBO<T> {
     pub id: u32,
-    target: Target,
-    type_draw: TypeDraw,
+    pub target: Target,
+    pub type_draw: TypeDraw,
     pub data: Option<T>,
-    is_bound: bool,
+    pub is_bound: bool,
 }
 
 impl<T> VBO<T> {

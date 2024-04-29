@@ -1,5 +1,6 @@
 [package]
 name = "glio"
+description = "Glio is a small abstract shell above crate gl"
 version = "0.0.1"
 edition = "2021"
 authors = ["Dmitriy Mayorov<MayorDi@yandex.ru>"]

@@ -3,8 +3,7 @@ use crate::traits::Bindable;
 #[derive(Debug, Clone, Eq, PartialEq)]
 pub struct VAO {
     pub id: u32,
-    is_bound: bool,
-    
+    pub is_bound: bool,
 }
 
 impl VAO {
