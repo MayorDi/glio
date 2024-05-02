@@ -1,4 +1,4 @@
-use crate::traits::Status;
+use crate::traits::{Status, WriteData};
 use crate::traits::{Compilable, LoadFromFile};
 use gl::types::{GLchar, GLenum, GLint};
 use std::ffi::CString;
@@ -22,6 +22,12 @@ impl Shader {
                 src: String::new(),
             }
         }
+    }
+}
+
+impl WriteData<String> for Shader {
+    fn write(&mut self, data: String) {
+        self.src = data;
     }
 }
 
